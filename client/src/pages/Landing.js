@@ -27,15 +27,15 @@ const Landing = () => {
         if (!token) {
             navigate('/login')
         }
-        const user = await axios.post("http://localhost:4000/user/isUser/", { token: token })
-        if (user) {
-            console.log(user)
-        } else {
-            localStorage.removeItem('token')
-            navigate('/login')
-        }
+        // const user = await axios.post("http://localhost:4000/user/isUser/", { token: token })
+        // if (user) {
+        //     console.log(user)
+        // } else {
+        //     localStorage.removeItem('token')
+        //     navigate('/login')
+        // }
     }
-    // onLoad()
+    onLoad()
     const loadTodos = async () => {
         const response = await axios.get('/todo/gettodos')
         const todoarray = await response.data.todos
@@ -277,6 +277,7 @@ const Landing = () => {
         settodos(todoarray)
     }
     useEffect(() => {
+        onLoad()
         loadTodos()
         settododel(false)
     }, [todo, tododel, showtask])
