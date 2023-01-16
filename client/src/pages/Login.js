@@ -51,7 +51,7 @@ const Login = () => {
                 });
             }
         } catch (error) {
-            toast.error(error.message, {
+            toast.error('user not exist', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,

@@ -313,21 +313,21 @@ const Landing = () => {
                 theme="light"
             />
             <header className="p-4 bg-gray-100 text-gray-800">
-                <div className="container flex justify-between h-16 mx-auto">
-                    <form onSubmit={handleSubmit} className="flex items-center md:space-x-4 mx-auto">
+                <div className="container flex flex-col md:flex-row text-center space-y-2 md:space-y-0 justify-between h-16 mx-auto">
+                    <h3 className='font-semibold text-xl align-middle text-slate-700'>Welcome, {username}</h3>
+                    <form onSubmit={handleSubmit} className="flex space-x-2 flex-row md:items-center md:space-x-4 mx-auto">
                         <div className="relative">
                             <input required value={todo} onChange={(e) => settodo(e.target.value)} type="text" name="Search" placeholder="todo..." className="w-48 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none bg-gray-100 text-gray-800 border border-gray-300 focus:bg-gray-50" />
                         </div>
-                        <h3>{username}</h3>
-                        <button type="submit" className="hidden px-6 py-2 font-semibold rounded lg:block bg-indigo-600 text-gray-50">Add Todo</button>
+                        <button type="submit" className="px-6 py-2 font-semibold rounded lg:block bg-indigo-600 text-gray-50">Add Todo</button>
                     </form>
                 </div>
             </header>
             <div className="conatiner p-2 mx-auto sm:p-4 text-gray-800">
-                <h2 className="mb-4 text-2xl font-semibold leading-tight">Todos</h2>
-                <ul className='list-none flex flex-row w-80 justify-evenly text-center items-center font-semibold m-3'>Sort by Date:
-                    <li className='cursor-pointer border rounded-xl shadow-lg p-1 border-gray-500 bg-indigo-600 text-white' onClick={() => sort(1)}>Ascending</li>
-                    <li className='cursor-pointer border rounded-xl shadow-lg p-1 border-gray-500 bg-indigo-600 text-white' onClick={() => sort(-1)}>Descending</li>
+                <h2 className="mb-4 text-center md:text-left text-2xl font-semibold leading-tight">Todos</h2>
+                <ul className='list-none mx-auto md:mx-0 flex flex-row w-80 justify-evenly text-center items-center font-semibold m-3'>Sort by Date:
+                    <li className='cursor-pointer border rounded-xl shadow-lg p-1 border-gray-500 bg-indigo-600 text-white' onClick={() => sort(1)}>Oldest</li>
+                    <li className='cursor-pointer border rounded-xl shadow-lg p-1 border-gray-500 bg-indigo-600 text-white' onClick={() => sort(-1)}>Newest</li>
                 </ul>
                 <div className="overflow-x-auto shadow-md">
                     <table className="min-w-full text-xs">

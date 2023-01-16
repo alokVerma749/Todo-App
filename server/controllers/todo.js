@@ -187,7 +187,10 @@ export const deleteTask = async (req, res) => {
             }
         }
     } catch (error) {
-        throw new Error(error.message)
+        res.status(404).json({
+            status: false,
+            message: error.message
+        })
     }
 }
 export const getTasks = async (req, res) => {
