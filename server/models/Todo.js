@@ -9,6 +9,10 @@ const todoSchema = new Schema({
     tasks: {
         type: [String]
     },
+    user_id: {
+        type: String,
+        required: true
+    },
     createdAt: {
         type: Number
     }

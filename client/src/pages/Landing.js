@@ -2,16 +2,13 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
 
 const Landing = () => {
-    const navigate = useNavigate()
+    const [username, setUserName] = useState(null)
     // fetching user todos
     const [todos, settodos] = useState([])
     // creating todo
     const [todo, settodo] = useState('')
-    // todo delete status
-    const [tododel, settododel] = useState(false)
     // tasks state on todo fetch
     const [tasks, settasks] = useState([])
     // task state on create task
@@ -22,24 +19,21 @@ const Landing = () => {
     const [showtask, setshowtask] = useState(false)
     // current task's todo title
     const [title, settitle] = useState('')
-    const onLoad = async () => {
-        const token = localStorage.getItem('token')
-        if (!token) {
-            navigate('/login')
-        }
-        // const user = await axios.post("http://localhost:4000/user/isUser/", { token: token })
-        // if (user) {
-        //     console.log(user)
-        // } else {
-        //     localStorage.removeItem('token')
-        //     navigate('/login')
-        // }
-    }
-    onLoad()
+    const [todoAdded, setTodoAdded] = useState(false)
+    const [todoDeleted, setTodoDeleted] = useState(false)
+    const [todoEditted, setTodoEditted] = useState(false)
+    const [taskAdded, setTaskAdded] = useState(false)
+    const [taskDeleted, setTaskDeleted] = useState(false)
     const loadTodos = async () => {
-        const response = await axios.get('/todo/gettodos')
-        const todoarray = await response.data.todos
-        settodos(todoarray)
+        const response = await axios.get('/todo/gettodos', {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        })
+        const { todos, username } = await response.data
+        // const todoarray = 
+        // const username = await response.data.username
+        // setUser(username)
+        setUserName(username)
+        settodos(todos)
     }
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -48,12 +42,16 @@ const Landing = () => {
     }
     const submitData = async () => {
         try {
-            const res = await axios.post('/todo/createtodo', {
+            const data = {
                 title: todo,
                 createdAt: Date.now()
+            }
+            const res = await axios.post('/todo/createtodo', data, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
             })
             const response = await res.data
             if (response.success) {
+                setTodoAdded(true)
                 toast.success(response.message, {
                     position: "top-right",
                     autoClose: 5000,
@@ -91,9 +89,12 @@ const Landing = () => {
     }
     const handleDelete = async (id) => {
         try {
-            const res = await axios.delete(`/todo/deletetodo/${id}`)
+            const res = await axios.delete(`/todo/deletetodo/${id}`, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+            })
             const response = await res.data
             if (response.success) {
+                setTodoDeleted(true)
                 toast.success(response.message, {
                     position: "top-right",
                     autoClose: 5000,
@@ -104,7 +105,6 @@ const Landing = () => {
                     progress: undefined,
                     theme: "light",
                 });
-                settododel(true)
             } else {
                 toast.error(response.message, {
                     position: "top-right",
@@ -116,7 +116,6 @@ const Landing = () => {
                     progress: undefined,
                     theme: "light",
                 });
-                settododel(false)
             }
         } catch (error) {
             toast.error(error.message, {
@@ -129,7 +128,6 @@ const Landing = () => {
                 progress: undefined,
                 theme: "light",
             });
-            settododel(false)
         }
     }
     const handleEdit = async (id) => {
@@ -138,9 +136,12 @@ const Landing = () => {
             settodo(newtodo)
             const res = await axios.put(`/todo/edittodo/${id}`, {
                 "title": newtodo
+            }, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
             })
             const response = res.data
             if (response.success) {
+                setTodoEditted(true)
                 toast.success(response.message, {
                     position: "top-right",
                     autoClose: 5000,
@@ -151,7 +152,6 @@ const Landing = () => {
                     progress: undefined,
                     theme: "light",
                 });
-                settododel(true)
             } else {
                 toast.error(response.message, {
                     position: "top-right",
@@ -181,10 +181,13 @@ const Landing = () => {
     const addTask = async (e) => {
         try {
             e.preventDefault()
-            const res = await axios.post(`/todo/createtask/${taskid}`, { task: task })
+            const res = await axios.post(`/todo/createtask/${taskid}`, { task: task }, {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+            })
             const response = await res.data
             settask('')
             if (response.success) {
+                setTaskAdded(true)
                 toast.success(response.message, {
                     position: "top-right",
                     autoClose: 5000,
@@ -221,7 +224,9 @@ const Landing = () => {
         }
     }
     const handleTaskClick = async (id) => {
-        const res = await axios.get(`/todo/gettodo/${id}`)
+        const res = await axios.get(`/todo/gettodo/${id}`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        })
         settasks(res.data.todo.tasks)
         setshowtask(true)
         settaskid(null)
@@ -232,10 +237,14 @@ const Landing = () => {
         try {
             e.preventDefault()
             const text = e.target.parentNode.parentNode.firstChild.firstChild.innerText
-            const res = await axios.delete(`/todo/deletetask/${taskid}`, { data: { taskString: text } })
+            const res = await axios.delete(`/todo/deletetask/${taskid}`, {
+                data: { taskString: text },
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+            })
             const response = await res.data
             settask('')
             if (response.success) {
+                setTaskDeleted(true)
                 toast.success(response.message, {
                     position: "top-right",
                     autoClose: 5000,
@@ -272,15 +281,22 @@ const Landing = () => {
         }
     }
     const sort = async (n) => {
-        const response = await axios.get('/todo/sortTodo', { params: { order: n } })
+        const response = await axios.get('/todo/sortTodo', {
+            params: { order: n },
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+        })
         const todoarray = await response.data.todos
         settodos(todoarray)
     }
     useEffect(() => {
-        onLoad()
         loadTodos()
-        settododel(false)
-    }, [todo, tododel, showtask])
+        setTodoAdded(false)
+        setTodoDeleted(false)
+        setTaskAdded(false)
+        setTaskDeleted(false)
+        setTodoEditted(false)
+    }, [showtask, todoAdded, todoDeleted
+        , taskAdded, taskDeleted, todoEditted])
 
     return (
         <>
@@ -302,6 +318,7 @@ const Landing = () => {
                         <div className="relative">
                             <input required value={todo} onChange={(e) => settodo(e.target.value)} type="text" name="Search" placeholder="todo..." className="w-48 py-2 pl-10 text-sm rounded-md sm:w-auto focus:outline-none bg-gray-100 text-gray-800 border border-gray-300 focus:bg-gray-50" />
                         </div>
+                        <h3>{username}</h3>
                         <button type="submit" className="hidden px-6 py-2 font-semibold rounded lg:block bg-indigo-600 text-gray-50">Add Todo</button>
                     </form>
                 </div>

@@ -13,6 +13,9 @@ import {
     sortTodo
 } from '../controllers/todo.js'
 
+import auth from '../middlewares/auth.js'
+router.use(auth)
+
 router.post('/createtodo', createTodo)
 router.delete('/deletetodo/:todoid', deleteTodo)
 router.get('/gettodo/:todoid', getTodo)

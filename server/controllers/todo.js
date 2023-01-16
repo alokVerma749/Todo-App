@@ -2,15 +2,17 @@ import Todo from '../models/Todo.js'
 export const createTodo = async (req, res) => {
     try {
         const { title, createdAt } = req.body
+        const user_id = req.user.userid._id
         if (!title) {
-            res.status(500).json({
+            return res.status(500).json({
                 success: false,
                 message: 'todo is empty'
             })
         }
         const todo = new Todo({
-            title,
-            createdAt
+            title: title,
+            user_id: user_id,
+            createdAt: createdAt
         })
         const response = await todo.save()
         if (response) {
@@ -25,7 +27,10 @@ export const createTodo = async (req, res) => {
             })
         }
     } catch (error) {
-        throw new Error(error.message)
+        res.status(400).json({
+            success: false,
+            message: error.message
+        })
     }
 }
 export const deleteTodo = async (req, res) => {
@@ -82,9 +87,11 @@ export const editTodo = async (req, res) => {
         throw new Error(error.message)
     }
 }
-export const getTodos = async (_req, res) => {
+export const getTodos = async (req, res) => {
     try {
-        const todos = await Todo.find({})
+        const user_id = req.user.userid._id
+        const username = req.user.name
+        const todos = await Todo.find({ user_id })
         if (!todos) {
             res.status(500).json({
                 success: false,
@@ -94,10 +101,13 @@ export const getTodos = async (_req, res) => {
         res.status(200).json({
             success: true,
             message: 'todos fetching successfully',
-            todos
+            todos,
+            username
         })
     } catch (error) {
-        throw new Error(error.message)
+        res.status(404).json({
+            error: error.message
+        })
     }
 }
 export const getTodo = async (req, res) => {
@@ -202,14 +212,17 @@ export const getTasks = async (req, res) => {
 }
 export const sortTodo = async (req, res) => {
     try {
+        const user_id = req.user.userid._id
         const { order } = req.query
-        const todos = await Todo.find({}).sort({ 'createdAt': order })
+        const todos = await Todo.find({ user_id }).sort({ 'createdAt': order })
         res.status(200).json({
             success: true,
             message: "todos sorted successfully",
             todos
         })
     } catch (error) {
-        res.status(200).send(error)
+        res.status(400).json({
+            error: error.message
+        })
     }
 }

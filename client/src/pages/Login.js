@@ -15,7 +15,6 @@ const Login = () => {
         e.preventDefault()
         submitdata()
         setcred({
-            name: '',
             email: '',
             password: ''
         })
@@ -52,7 +51,7 @@ const Login = () => {
                 });
             }
         } catch (error) {
-            toast.error('something went wrong', {
+            toast.error(error.message, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
