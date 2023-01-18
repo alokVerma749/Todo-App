@@ -43,7 +43,7 @@ Run Frontend
 - move to frontend folder
 
 ```npm
-  cd client
+  cd frontend
 ```
 
 - Install Packages
@@ -63,7 +63,7 @@ Run Backend (in other terminal)
 - move to backend folder
 
 ```npm
-  cd server
+  cd backend
 ```
 
 - Install Packages
