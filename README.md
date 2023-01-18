@@ -1,5 +1,5 @@
 # fullstack-todo-app
-Todo app build using MERN stack, with user authentication
+A simple and easy-to-use todo app that helps you stay organized and on top of your daily tasks.
 
 <div align="center">
   <a href="https://github.com/alokVerma749/Todo-App">
@@ -23,6 +23,12 @@ Todo app build using MERN stack, with user authentication
   
   ### 🛠 For Authentication
   - JWT tokens has been used 
+  
+  ## Video Demo
+  Check out the video demo here: [https://lnkd.in/diwcR_8y]( https://lnkd.in/diwcR_8y)
+  
+  ## Source Code
+  The source code is available on Github: [https://lnkd.in/dVQAwr7g](https://lnkd.in/dVQAwr7g)
 
 ## 🚩 Run Locally
 
