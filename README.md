@@ -35,7 +35,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd fullstack-todo-app/
+  cd Todo-App/
 ```
 
 Run Frontend 
@@ -43,7 +43,7 @@ Run Frontend
 - move to frontend folder
 
 ```npm
-  cd frontend
+  cd client
 ```
 
 - Install Packages
@@ -63,7 +63,7 @@ Run Backend (in other terminal)
 - move to backend folder
 
 ```npm
-  cd backend
+  cd server
 ```
 
 - Install Packages
