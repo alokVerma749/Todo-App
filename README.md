@@ -29,7 +29,7 @@ Todo app build using MERN stack, with user authentication
 Clone the project
 
 ```git
-  git clone https://github.com/alokVerma749/fullstack-todo-app.git
+  git clone https://github.com/alokVerma749/Todo-App.git
 ```
 
 Go to the project directory
