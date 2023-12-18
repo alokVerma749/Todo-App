@@ -8,9 +8,11 @@ A simple and easy-to-use todo app that helps you stay organized and on top of yo
 
 <h3 align="center">TODO_APP</h3>
 
+![image](https://github.com/alokVerma749/Todo-App/assets/87599400/7f1dd556-e7f4-4de1-8e99-19d0ce196678)
+
   <p align="center">
     <br />
-    <a href="https://github.com/alokVerma749/Todo-App">Source Code Link</a>
+    <a href="https://www.youtube.com/watch?v=Q7f0l142XxA">Video Presentation Link</a>
   </p>
 </div>
 
